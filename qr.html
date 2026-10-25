@@ -27,6 +27,16 @@ h1{margin:0;font-size:40px;font-weight:700;letter-spacing:-1px}
 .any{width:100%;background:#DDEFEA;border:1px solid #B9DDD4;border-radius:18px;padding:16px 22px;display:flex;flex-direction:column;gap:4px;color:#1F4A42;font-size:14px;line-height:1.5}
 .any b{font-size:16px;margin-bottom:2px}
 @media print{body{background:#FFF}.tools{display:none}.poster{box-shadow:none;margin:0 auto;border-radius:0}}
+/* A5 한 장(인쇄 영역 128×190mm)에 들어가도록 인쇄할 때만 간격·글자를 줄인다 */
+@media print{
+.poster{width:100%;max-width:none;padding:0;gap:10px;break-inside:avoid}
+.poster img.logo{width:52mm}
+h1{font-size:22pt}.en{font-size:13pt;margin-top:0}
+.qrbox{width:58mm;height:58mm;border-radius:14px}.qrbox svg{width:52mm;height:52mm}
+.url{margin-top:-8px;font-size:7.5pt}
+.lines{padding:2px 16px;border-radius:12px}.lines div{padding:4px 0;font-size:10.5pt}
+.any{padding:10px 16px;border-radius:12px;font-size:9pt;gap:2px;line-height:1.4}.any b{font-size:10.5pt}
+}
 </style>
 </head>
 <body>
