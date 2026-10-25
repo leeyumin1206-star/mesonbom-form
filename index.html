@@ -111,7 +111,7 @@ var D = {
         birth: '생년월일', gender: '성별', female: '여성', male: '남성',
         phone: '휴대폰 번호', phonePhIntl: '국가번호 포함 (예: +886)',
         email: '이메일 (선택)', referral: '어떻게 알고 오셨나요?',
-        refs: ['인스타그램', '네이버', '구글', '지인 소개', '기타'], refFriend: 3,
+        refs: ['인스타그램', '네이버', '구글', '지인 소개', '기타', 'AI'], refFriend: 3,
         friendPh: '소개해 주신 분 성함을 적어 주세요',
         skinQ: '어떤 고민으로 오셨나요?', multi: '여러 개 선택할 수 있어요',
         concerns: ['여드름·흉터', '기미·색소', '주름', '모공', '리프팅·탄력', '볼륨', '홍조', '제모', '기타'],
@@ -151,7 +151,7 @@ var D = {
         birth: 'Date of birth', gender: 'Sex', female: 'Female', male: 'Male',
         phone: 'Phone number', phonePhIntl: 'Include country code, e.g. +1',
         email: 'Email (optional)', referral: 'How did you hear about us?',
-        refs: ['Instagram', 'Naver', 'Google', 'A friend', 'Other'],
+        refs: ['Instagram', 'Naver', 'Google', 'A friend', 'Other', 'AI'],
         skinQ: 'What brings you in today?', multi: 'Select all that apply',
         concerns: ['Acne & scars', 'Pigmentation', 'Wrinkles', 'Pores', 'Lifting & firmness', 'Volume', 'Redness', 'Hair removal', 'Other'],
         prev: 'Past treatments and how they turned out', prevPh: 'e.g. Laser toning x5 last March – pigmentation faded (leave blank if none)',
@@ -190,7 +190,7 @@ var D = {
         birth: '出生日期', gender: '性别', female: '女', male: '男',
         phone: '手机号码', phonePhIntl: '请包含国家区号，例如 +86',
         email: '邮箱（选填）', referral: '您是如何了解我们的？',
-        refs: ['小红书', '大众点评', '抖音', 'Instagram', 'Naver', 'Google', '朋友介绍', '其他'],
+        refs: ['小红书', '大众点评', '抖音', 'Instagram', 'Naver', 'Google', '朋友介绍', '其他', 'AI'],
         skinQ: '您想改善哪些问题？', multi: '可多选',
         concerns: ['痘痘·痘印', '色斑·色素', '皱纹', '毛孔', '提拉·紧致', '丰盈·填充', '泛红', '脱毛', '其他'],
         prev: '做过的项目及当时效果', prevPh: '例如：去年3月激光美白5次——色斑变淡（没有可不填）',
@@ -229,7 +229,7 @@ var D = {
         birth: '出生日期', gender: '性別', female: '女', male: '男',
         phone: '手機號碼', phonePhIntl: '請包含國碼，例如 +886',
         email: '電子郵件（選填）', referral: '您是如何得知我們的？',
-        refs: ['小紅書', '大眾點評', '抖音', 'Instagram', 'Naver', 'Google', '朋友介紹', '其他'],
+        refs: ['小紅書', '大眾點評', '抖音', 'Instagram', 'Naver', 'Google', '朋友介紹', '其他', 'AI'],
         skinQ: '您想改善哪些問題？', multi: '可複選',
         concerns: ['痘痘·痘疤', '斑點·色素', '皺紋', '毛孔', '拉提·緊緻', '豐盈·填充', '泛紅', '除毛', '其他'],
         prev: '做過的療程及當時效果', prevPh: '例如：去年3月雷射淨膚5次——斑點變淡（沒有可不填）',
@@ -268,7 +268,7 @@ var D = {
         birth: 'Fecha de nacimiento', gender: 'Sexo', female: 'Mujer', male: 'Hombre',
         phone: 'Teléfono', phonePhIntl: 'Con prefijo, p. ej. +52',
         email: 'Correo electrónico (opcional)', referral: '¿Cómo nos conoció?',
-        refs: ['Instagram', 'Naver', 'Google', 'Un amigo', 'Otro'],
+        refs: ['Instagram', 'Naver', 'Google', 'Un amigo', 'Otro', 'AI'],
         skinQ: '¿Qué le gustaría tratar?', multi: 'Puede elegir varias opciones',
         concerns: ['Acné y cicatrices', 'Manchas', 'Arrugas', 'Poros', 'Lifting y firmeza', 'Volumen', 'Rojez', 'Depilación', 'Otro'],
         prev: 'Tratamientos previos y sus resultados', prevPh: 'p. ej. láser toning x5 en marzo pasado – manchas más claras (déjelo en blanco si no hay)',
@@ -302,7 +302,14 @@ var EXTRA = {
   zht: { need: '請填寫所有標示 * 的項目', sending: '送出中…', sendErr: '送出失敗，請稍後重試。', clearSign: '重寫', viewFull: '查看' },
   es: { need: 'Complete todos los campos marcados con *', sending: 'Enviando…', sendErr: 'No se pudo enviar. Inténtelo de nuevo.', clearSign: 'Borrar', viewFull: 'Ver' }
 };
-Object.keys(EXTRA).forEach(function (k) { Object.assign(D[k], EXTRA[k]); });
+var REF_SUB = {
+  ko: { naverQ: '네이버 어디에서 보셨나요?', naverSub: ['리뷰', '블로그', '카페'], aiQ: '어떤 AI에서 보셨나요?', aiSub: ['ChatGPT', 'Gemini', 'Claude', '기타'] },
+  en: { naverQ: 'Where on Naver?', naverSub: ['Reviews', 'Blog', 'Cafe'], aiQ: 'Which AI?', aiSub: ['ChatGPT', 'Gemini', 'Claude', 'Other'] },
+  zhs: { naverQ: '在Naver的哪里看到的？', naverSub: ['评论', '博客', 'Cafe'], aiQ: '哪个AI？', aiSub: ['ChatGPT', 'Gemini', 'Claude', '其他'] },
+  zht: { naverQ: '在Naver的哪裡看到的？', naverSub: ['評論', '部落格', 'Cafe'], aiQ: '哪個AI？', aiSub: ['ChatGPT', 'Gemini', 'Claude', '其他'] },
+  es: { naverQ: '¿Dónde en Naver?', naverSub: ['Reseñas', 'Blog', 'Café'], aiQ: '¿Qué IA?', aiSub: ['ChatGPT', 'Gemini', 'Claude', 'Otra'] }
+};
+Object.keys(EXTRA).forEach(function (k) { Object.assign(D[k], EXTRA[k], REF_SUB[k]); });
 
 var LANGS = [
   { id: 'ko', native: '한국어', code: 'KO', html: 'ko' },
@@ -315,7 +322,7 @@ var LANGS = [
 var S;
 function reset() {
   S = { lang: 'ko', step: 0, ptype: null, gender: null, name: '', phone: '', country: null, countryOther: '',
-    sns: null, snsId: '', refs: {}, friend: '', concerns: {}, prev: '', surg: {}, surgOther: '', implant: '',
+    sns: null, snsId: '', refs: {}, refNaver: {}, refAi: {}, friend: '', concerns: {}, prev: '', surg: {}, surgOther: '', implant: '',
     conds: {}, condDetail: '', ans: {}, ansDetail: {}, hormones: {}, consent: {}, open: {}, sign: null,
     sending: false, err: '', miss: [] };
 }
@@ -398,8 +405,16 @@ function vInfo() {
       input('snsId', (S.sns != null ? t.snsApps[S.sns] + ' · ' : '') + t.snsPh, 'text', ' autocapitalize="none" autocomplete="off"') + '</div>';
   }
   h += '<div class="f"><span class="lab">' + esc(t.referral) + '</span><span class="small" style="margin-top:-4px">' + esc(t.multi) + '</span>' + chips('refs', t.refs, true) +
-    (t.refFriend != null && S.refs[t.refFriend] ? input('friend', t.friendPh) : '') + '</div>';
+    (t.refFriend != null && S.refs[t.refFriend] ? input('friend', t.friendPh) : '') +
+    (!I && S.refs[naverIdx(t)] ? subChips(t.naverQ, 'refNaver', t.naverSub) : '') +
+    (S.refs[aiIdx(t)] ? subChips(t.aiQ, 'refAi', t.aiSub) : '') + '</div>';
   return h;
+}
+
+function naverIdx(t) { for (var i = 0; i < t.refs.length; i++) if (/naver|네이버/i.test(t.refs[i])) return i; return -1; }
+function aiIdx(t) { return t.refs.indexOf('AI'); }
+function subChips(q, key, labels) {
+  return '<div class="tintbox" style="padding:12px 14px;gap:8px;border-radius:12px"><span style="font-size:13px;font-weight:600">' + esc(q) + '</span>' + chips(key, labels, true) + '</div>';
 }
 
 function vSkin() {
@@ -536,6 +551,8 @@ function payload() {
     country: I ? (S.country === K.countries.length - 1 ? S.countryOther.trim() : K.countries[S.country]) : '',
     sns: I ? K.snsApps[S.sns] : '', snsId: I ? S.snsId.trim() : '',
     refs: picked(S.refs, t.refs), friend: (t.refFriend != null && S.refs[t.refFriend]) ? S.friend.trim() : '',
+    refNaver: (!I && S.refs[naverIdx(t)]) ? picked(S.refNaver, K.naverSub) : [],
+    refAi: S.refs[aiIdx(t)] ? picked(S.refAi, K.aiSub) : [],
     concerns: picked(S.concerns, K.concerns), prev: S.prev.trim(),
     surg: picked(S.surg, K.surgs), surgOther: S.surg[K.surgs.length - 1] ? S.surgOther.trim() : '',
     implant: S.implant.trim(),
@@ -567,7 +584,7 @@ function exclusive(key, i, len) {
 app.addEventListener('click', function (e) {
   var b = e.target.closest('[data-act]'); if (!b) return;
   var p = b.getAttribute('data-act').split(':'), act = p[0], t = T();
-  if (act === 'lang') { S.lang = p[1]; S.ptype = null; S.country = null; S.sns = null; S.refs = {}; }
+  if (act === 'lang') { S.lang = p[1]; S.ptype = null; S.country = null; S.sns = null; S.refs = {}; S.refNaver = {}; S.refAi = {}; }
   else if (act === 'start') { S.step = 1; window.scrollTo(0, 0); }
   else if (act === 'toLang') { S.step = 0; S.err = ''; S.miss = []; }
   else if (act === 'ptype') { S.ptype = p[1]; }
