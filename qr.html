@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>MeSO×nBOM 문진표 QR</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Sans+SC:wght@400;500&family=Noto+Sans+TC:wght@400;500&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<style>
+@page{size:A5;margin:10mm}
+*{box-sizing:border-box}
+body{margin:0;background:#F3F7F6;color:#2C3A42;font-family:'Noto Sans KR','Noto Sans SC',system-ui,sans-serif}
+.tools{max-width:600px;margin:16px auto 0;display:flex;justify-content:flex-end;gap:8px;padding:0 16px}
+.tools button{min-height:44px;padding:0 18px;border:0;border-radius:12px;background:#2E5E55;color:#FFF;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer}
+.poster{width:600px;max-width:calc(100% - 32px);margin:16px auto 32px;background:#FFF;border-radius:24px;box-shadow:0 6px 24px rgba(46,94,85,.1);padding:48px 48px 44px;display:flex;flex-direction:column;align-items:center;gap:26px;text-align:center}
+.poster img.logo{display:block;width:360px;max-width:90%;height:auto}
+h1{margin:0;font-size:40px;font-weight:700;letter-spacing:-1px}
+.en{font-size:24px;color:#2E5E55;font-weight:500;margin-top:4px}
+.qrbox{width:280px;height:280px;border-radius:24px;background:#FFF;border:1.5px solid #CFE7E1;display:flex;align-items:center;justify-content:center}
+.qrbox svg{display:block;width:260px;height:260px}
+.url{margin-top:-14px;font-size:11px;color:#66747A;word-break:break-all;max-width:100%}
+.devwarn{width:100%;padding:12px 16px;border-radius:12px;background:#FDECEA;border:1.5px solid #B42318;color:#B42318;font-size:14px;font-weight:700;line-height:1.5}
+.lines{width:100%;background:#FFF;border:1px solid #E1ECE9;border-radius:18px;padding:8px 22px}
+.lines div{padding:9px 0;font-size:16px}
+.lines div+div{border-top:1px solid #E8F1EE}
+.any{width:100%;background:#DDEFEA;border:1px solid #B9DDD4;border-radius:18px;padding:16px 22px;display:flex;flex-direction:column;gap:4px;color:#1F4A42;font-size:14px;line-height:1.5}
+.any b{font-size:16px;margin-bottom:2px}
+@media print{body{background:#FFF}.tools{display:none}.poster{box-shadow:none;margin:0 auto;border-radius:0}}
+</style>
+</head>
+<body>
+<div class="tools"><button type="button" onclick="window.print()">인쇄하기</button></div>
+<div class="poster">
+<img class="logo" src="logo.png" alt="MeSO×nBOM">
+<div><h1>초진 문진표</h1><div class="en">New Patient Form</div></div>
+<div class="qrbox"><div id="qr" role="img" aria-label="문진표 QR 코드"></div></div>
+<div class="url" id="url"></div>
+<div class="lines">
+<div lang="ko" style="font-weight:500">휴대폰 카메라로 QR을 비춰 주세요</div>
+<div lang="en">Scan with your phone camera</div>
+<div lang="zh-Hans" style="font-family:'Noto Sans SC',sans-serif">请用手机相机扫描二维码</div>
+<div lang="zh-Hant" style="font-family:'Noto Sans TC',sans-serif">請用手機相機掃描 QR 碼</div>
+<div lang="es">Escanee con la cámara de su móvil</div>
+</div>
+<div class="any">
+<b>어떤 언어로 적어도 괜찮아요 · Any language is OK</b>
+<div lang="ko">목록에 없는 언어여도 모국어로 편하게 적어 주세요. 저희가 번역해서 볼게요.</div>
+<div lang="en">Write in your own language. We will translate it.</div>
+<div lang="zh-Hans" style="font-family:'Noto Sans SC',sans-serif">可以用您的母语填写，我们会翻译。</div>
+<div lang="zh-Hant" style="font-family:'Noto Sans TC',sans-serif">可以用您的母語填寫，我們會翻譯。</div>
+<div lang="es">Puede escribir en su propio idioma; lo traduciremos.</div>
+<div style="font-size:12px;color:#3E4C53;margin-top:4px">※ 이름은 여권과 같이 영문으로 · Name in English letters, as on your passport</div>
+</div>
+</div>
+<script>
+// 이 페이지와 같은 사이트의 문진표 첫 화면 주소 (예: https://아이디.github.io/저장소/)
+var FORM_URL = new URL('./', location.href).href;
+// 예전 qrcodejs 1.0.0은 칸 크기가 소수점이 되면 칸 사이에 흰 줄이 생겨 인식이 안 될 수 있다.
+// qrcode-generator로 SVG(인쇄해도 선명)를 만들고, 바깥 여백 4칸(QR 표준)을 둔다
+var qr = qrcode(0, 'M');
+qr.addData(FORM_URL);
+qr.make();
+document.getElementById('qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 24, scalable: true });  // margin은 px 단위: 6px × 4칸
+document.getElementById('url').textContent = FORM_URL;
+</script>
+</body>
+</html>
