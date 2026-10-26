@@ -45,7 +45,6 @@ h1{font-size:22pt}.en{font-size:13pt;margin-top:0}
 <img class="logo" src="logo.png" alt="MeSO×nBOM">
 <div><h1>초진 문진표</h1><div class="en">New Patient Form</div></div>
 <div class="qrbox"><div id="qr" role="img" aria-label="문진표 QR 코드"></div></div>
-<div class="url" id="url"></div>
 <div class="lines">
 <div lang="ko" style="font-weight:500">휴대폰 카메라로 QR을 비춰 주세요</div>
 <div lang="en">Scan with your phone camera</div>
@@ -71,8 +70,6 @@ var FORM_URL = new URL('./', location.href).href;
 var qr = qrcode(0, 'M');
 qr.addData(FORM_URL);
 qr.make();
-document.getElementById('qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 24, scalable: true });  // margin은 px 단위: 6px × 4칸
-document.getElementById('url').textContent = FORM_URL;
-</script>
+document.getElementById('qr').innerHTML = qr.createSvgTag({ cellSize: 6, margin: 24, scalable: true });  // margin은 px 단위: 6px × 4칸</script>
 </body>
 </html>
