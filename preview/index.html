@@ -305,11 +305,11 @@ var EXTRA = {
   es: { need: 'Complete todos los campos marcados con *', sending: 'Enviando…', sendErr: 'No se pudo enviar. Inténtelo de nuevo.', clearSign: 'Borrar', viewFull: 'Ver' }
 };
 var REF_SUB = {
-  ko: { naverQ: '네이버 어디에서 보셨나요?', naverSub: ['리뷰', '블로그', '카페'], aiQ: '어떤 AI에서 보셨나요?', aiSub: ['ChatGPT', 'Gemini', 'Claude', '기타'] },
-  en: { naverQ: 'Where on Naver?', naverSub: ['Reviews', 'Blog', 'Cafe'], aiQ: 'Which AI?', aiSub: ['ChatGPT', 'Gemini', 'Claude', 'Other'] },
-  zhs: { naverQ: '在Naver的哪里看到的？', naverSub: ['评论', '博客', 'Cafe'], aiQ: '哪个AI？', aiSub: ['ChatGPT', 'Gemini', 'Claude', '其他'] },
-  zht: { naverQ: '在Naver的哪裡看到的？', naverSub: ['評論', '部落格', 'Cafe'], aiQ: '哪個AI？', aiSub: ['ChatGPT', 'Gemini', 'Claude', '其他'] },
-  es: { naverQ: '¿Dónde en Naver?', naverSub: ['Reseñas', 'Blog', 'Café'], aiQ: '¿Qué IA?', aiSub: ['ChatGPT', 'Gemini', 'Claude', 'Otra'] }
+  ko: { instaQ: '인스타그램 어디에서 보셨나요?', instaSub: ['광고', '검색', '원장님 계정'], naverQ: '네이버 어디에서 보셨나요?', naverSub: ['리뷰', '블로그', '카페'], aiQ: '어떤 AI에서 보셨나요?', aiSub: ['ChatGPT', 'Gemini', 'Claude', '기타'] },
+  en: { instaQ: 'Where on Instagram?', instaSub: ['Ad', 'Search', 'Director\'s account (@dr_yumin)'], naverQ: 'Where on Naver?', naverSub: ['Reviews', 'Blog', 'Cafe'], aiQ: 'Which AI?', aiSub: ['ChatGPT', 'Gemini', 'Claude', 'Other'] },
+  zhs: { instaQ: '在Instagram的哪里看到的？', instaSub: ['广告', '搜索', '院长账号 (@dr_yumin)'], naverQ: '在Naver的哪里看到的？', naverSub: ['评论', '博客', 'Cafe'], aiQ: '哪个AI？', aiSub: ['ChatGPT', 'Gemini', 'Claude', '其他'] },
+  zht: { instaQ: '在Instagram的哪裡看到的？', instaSub: ['廣告', '搜尋', '院長帳號 (@dr_yumin)'], naverQ: '在Naver的哪裡看到的？', naverSub: ['評論', '部落格', 'Cafe'], aiQ: '哪個AI？', aiSub: ['ChatGPT', 'Gemini', 'Claude', '其他'] },
+  es: { instaQ: '¿Dónde en Instagram?', instaSub: ['Anuncio', 'Búsqueda', 'Cuenta @dr_yumin'], naverQ: '¿Dónde en Naver?', naverSub: ['Reseñas', 'Blog', 'Café'], aiQ: '¿Qué IA?', aiSub: ['ChatGPT', 'Gemini', 'Claude', 'Otra'] }
 };
 Object.keys(EXTRA).forEach(function (k) { Object.assign(D[k], EXTRA[k], REF_SUB[k]); });
 
@@ -324,7 +324,7 @@ var LANGS = [
 var S;
 function reset() {
   S = { lang: 'ko', step: 0, ptype: null, gender: null, name: '', phone: '', country: null, countryOther: '',
-    sns: null, snsId: '', refs: {}, refNaver: {}, refAi: {}, friend: '', concerns: {}, prev: '', surg: {}, surgOther: '', implant: '',
+    sns: null, snsId: '', refs: {}, refInsta: {}, refNaver: {}, refAi: {}, friend: '', concerns: {}, prev: '', surg: {}, surgOther: '', implant: '',
     conds: {}, condDetail: '', ans: {}, ansDetail: {}, hormones: {}, consent: {}, open: {}, sign: null,
     sending: false, err: '', miss: [] };
 }
@@ -408,6 +408,7 @@ function vInfo() {
   }
   h += '<div class="f"><span class="lab">' + esc(t.referral) + '</span><span class="small" style="margin-top:-4px">' + esc(t.multi) + '</span>' + chips('refs', t.refs, true) +
     (t.refFriend != null && S.refs[t.refFriend] ? input('friend', t.friendPh) : '') +
+    (S.refs[instaIdx(t)] ? subChips(t.instaQ, 'refInsta', t.instaSub) : '') +
     (!I && S.refs[naverIdx(t)] ? subChips(t.naverQ, 'refNaver', t.naverSub) : '') +
     (S.refs[aiIdx(t)] ? subChips(t.aiQ, 'refAi', t.aiSub) : '') + '</div>';
   return h;
@@ -415,6 +416,7 @@ function vInfo() {
 
 function naverIdx(t) { for (var i = 0; i < t.refs.length; i++) if (/naver|네이버/i.test(t.refs[i])) return i; return -1; }
 function aiIdx(t) { return t.refs.indexOf('AI'); }
+function instaIdx(t) { for (var i = 0; i < t.refs.length; i++) if (/instagram|인스타그램/i.test(t.refs[i])) return i; return -1; }
 function subChips(q, key, labels) {
   return '<div class="tintbox" style="padding:12px 14px;gap:8px;border-radius:12px"><span style="font-size:13px;font-weight:600">' + esc(q) + '</span>' + chips(key, labels, true) + '</div>';
 }
@@ -553,6 +555,7 @@ function payload() {
     country: I ? (S.country === K.countries.length - 1 ? S.countryOther.trim() : K.countries[S.country]) : '',
     sns: I ? K.snsApps[S.sns] : '', snsId: I ? S.snsId.trim() : '',
     refs: picked(S.refs, t.refs), friend: (t.refFriend != null && S.refs[t.refFriend]) ? S.friend.trim() : '',
+    refInsta: S.refs[instaIdx(t)] ? picked(S.refInsta, K.instaSub) : [],
     refNaver: (!I && S.refs[naverIdx(t)]) ? picked(S.refNaver, K.naverSub) : [],
     refAi: S.refs[aiIdx(t)] ? picked(S.refAi, K.aiSub) : [],
     concerns: picked(S.concerns, K.concerns), prev: S.prev.trim(),
@@ -587,7 +590,7 @@ function exclusive(key, i, len) {
 app.addEventListener('click', function (e) {
   var b = e.target.closest('[data-act]'); if (!b) return;
   var p = b.getAttribute('data-act').split(':'), act = p[0], t = T();
-  if (act === 'lang') { S.lang = p[1]; S.ptype = null; S.country = null; S.sns = null; S.refs = {}; S.refNaver = {}; S.refAi = {}; }
+  if (act === 'lang') { S.lang = p[1]; S.ptype = null; S.country = null; S.sns = null; S.refs = {}; S.refInsta = {}; S.refNaver = {}; S.refAi = {}; }
   else if (act === 'start') { S.step = 1; window.scrollTo(0, 0); }
   else if (act === 'toLang') { S.step = 0; S.err = ''; S.miss = []; }
   else if (act === 'ptype') { S.ptype = p[1]; }
